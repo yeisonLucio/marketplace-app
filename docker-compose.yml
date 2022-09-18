@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  nginx:
+    image: nginx:1.23.1-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 81:80
+    networks:
+      - marketplace-network
+    depends_on:
+      - php
+      - mysqldb
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  mysqldb:
+    image: mysql:8.0.30
+    container_name: mysqldb
+    restart: unless-stopped
+    ports: 
+      - 33069:3306
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: 'marketplace'
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_USER: 'test'
+      MYSQL_PASSWORD: 'test'
+    networks:
+      - marketplace-network
+    volumes:
+      - ./dbdata:/var/lib/mysql
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    restart: unless-stopped
+    ports:
+      - 9000:80
+    networks:
+      - marketplace-network
+    volumes:
+      - ./:/var/www/html
+
+networks:
+  marketplace-network:
+    driver: bridge
+
+volumes:
+  dbdata:
