@@ -13,5 +13,5 @@ interface PaymentGatewayRepositoryContract {
      */
     public function sendTransaction(TransactionDTO $transactionDTO): TransactionResponseDTO;
     
-    public function getTransaction(string $requestId): TransactionResponseDTO;
+    public function getStatusTransaction(string $requestId): string;
 }

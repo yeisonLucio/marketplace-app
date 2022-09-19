@@ -4,7 +4,9 @@ namespace Tests\Unit\UseCases\Orders;
 
 use Src\Orders\Domain\Contracts\Repositories\OrderRepositoryContract;
 use Src\Orders\Domain\Contracts\UseCases\GetOrderSummaryContract;
+use Src\Orders\Domain\Enums\PaymentStatus;
 use Src\Orders\Domain\Exceptions\OrderNotFound;
+use Src\Payments\Domain\Contracts\PaymentGatewayRepositoryContract;
 use Tests\TestCase;
 
 class GetOrderSummaryTest extends TestCase 
@@ -13,13 +15,23 @@ class GetOrderSummaryTest extends TestCase
     public function shouldReturnOrderSuccessfully()
     {
         $order = $this->createFakeOrder();
-        
+
         $this->mock(OrderRepositoryContract::class)
             ->shouldReceive('getById')
             ->withArgs([$order->getId()])
             ->once()
-            ->andReturn($order);
+            ->andReturn($order)
+            ->shouldReceive('update')
+            ->withAnyArgs()
+            ->once()
+            ->andReturn(true);
 
+        $this->mock(PaymentGatewayRepositoryContract::class)
+            ->shouldReceive('getStatusTransaction')
+            ->with($order->getRequestId())
+            ->once()
+            ->andReturn("APPROVED");
+        
         /** @var GetOrderSummaryContract */
         $useCase = app(GetOrderSummaryContract::class);
 

@@ -8,4 +8,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # da permisos para editar los archivos en esta ruta del container
 RUN chown -R www-data:www-data /var/www/
 RUN chmod 755 -R /var/www/
-RUN chown -R www-data: /var/www/html/storage
+RUN chown -R www-data:www-data /var/www/html/

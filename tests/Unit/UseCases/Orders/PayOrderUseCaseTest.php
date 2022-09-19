@@ -24,7 +24,7 @@ class PayOrderUseCaseTest extends TestCase
         $transactionResponseDTO = new TransactionResponseDTO();
         $transactionResponseDTO->setProcessUrl('fake')
             ->setRequestId('123')
-            ->setStatus(true);
+            ->setRequestStatus(true);
 
         $order->setProcessUrl($transactionResponseDTO->getProcessUrl())
             ->setRequestId($transactionResponseDTO->getRequestId());
@@ -66,7 +66,7 @@ class PayOrderUseCaseTest extends TestCase
         $transactionResponseDTO = new TransactionResponseDTO();
         $transactionResponseDTO->setProcessUrl('fake')
             ->setRequestId('123')
-            ->setStatus(false);
+            ->setRequestStatus(false);
 
         $this->mock(OrderRepositoryContract::class)
             ->shouldReceive('getById')

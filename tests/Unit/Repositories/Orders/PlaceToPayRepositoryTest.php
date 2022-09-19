@@ -8,8 +8,6 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Mockery;
 use Src\Orders\Domain\Exceptions\TransactionFailed;
-use Src\Payments\Domain\Contracts\PaymentGatewayRepositoryContract;
-use Src\Payments\Domain\Dto\TransactionDTO;
 use Src\Payments\Domain\Dto\TransactionResponseDTO;
 use Tests\TestCase;
 
@@ -20,7 +18,7 @@ class PlaceToPayRepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->helperMock = Mockery::mock(PlaceToPayHelper::class);
         $this->helperMock->shouldReceive('getLogin')
             ->withNoArgs()
@@ -39,7 +37,7 @@ class PlaceToPayRepositoryTest extends TestCase
             ->once()
             ->andReturn('');
     }
-    
+
     /** @test */
     public function shouldReturnThatTheTransactionWasSuccessful()
     {
@@ -65,7 +63,7 @@ class PlaceToPayRepositoryTest extends TestCase
         $responseDTO = new TransactionResponseDTO();
 
         $responseDTO->setProcessUrl($response['processUrl'])
-            ->setStatus(true)
+            ->setRequestStatus(true)
             ->setRequestId($response['requestId']);
 
         $repo = new PlaceToPayRepository($this->helperMock);
@@ -106,7 +104,43 @@ class PlaceToPayRepositoryTest extends TestCase
         $repo = new PlaceToPayRepository($this->helperMock);
 
         $repo->sendTransaction($transactionDTO);
-
     }
-    
+
+    /** @test */
+    public function shouldReturnTheStatusTransactionSuccessfully()
+    {
+        $urlFake = 'fake-url';
+        config()->set('paymentGateways.placeToPay.services.getTransaction', $urlFake);
+
+        $response = [
+            'status' => [
+                'status' => 'APPROVED',
+            ],
+        ];
+
+        $body = [
+            'auth' => [
+                'login' => '',
+                'tranKey' => '',
+                'nonce' => '',
+                'seed' => ''
+            ]
+        ];
+
+        Http::fake([$urlFake => Http::response($response)]);
+
+        Http::withHeaders(['Content-Type' => 'application/json'])
+            ->post($urlFake, $body);
+
+        $repo = new PlaceToPayRepository($this->helperMock);
+
+        $status = $repo->getStatusTransaction('1234');
+
+        $this->assertEquals('APPROVED', $status);
+
+        Http::assertSent(function (Request $request) use ($body, $urlFake) {
+            return $request->data() == $body &&
+                $request->url() == $urlFake;
+        });
+    }
 }

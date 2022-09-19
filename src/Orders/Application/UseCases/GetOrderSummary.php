@@ -11,7 +11,6 @@ use Src\Payments\Domain\Contracts\PaymentGatewayRepositoryContract;
 
 class GetOrderSummary implements GetOrderSummaryContract
 {
-
     public function __construct(
         private OrderRepositoryContract $orderRepository,
         private PaymentGatewayRepositoryContract $paymentGateway
@@ -29,14 +28,26 @@ class GetOrderSummary implements GetOrderSummaryContract
             throw new OrderNotFound("Order not found");
         }
 
-        if($order->getStatus() == PaymentStatus::PAYED){
+        if (
+            $order->getStatus() == PaymentStatus::PAYED ||
+            $order->getStatus() == PaymentStatus::REJECTED ||
+            $order->getRequestId() == ""
+        ) {
+
             return $order;
         }
 
-        $result = $this->paymentGateway->getTransaction($order->getRequestId());
+        $result = $this->paymentGateway->getStatusTransaction($order->getRequestId());
 
-        if ($result->getStatus()){
-            
+        $status = [
+            'APPROVED' => PaymentStatus::PAYED,
+            'REJECTED' => PaymentStatus::REJECTED
+        ];
+
+        if ($result != 'PENDING' && isset($status[$result])) {
+
+            $order->setStatus($status[$result]);
+            $this->orderRepository->update($order);
         }
 
         return $order;

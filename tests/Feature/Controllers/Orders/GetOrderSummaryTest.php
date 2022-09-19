@@ -3,6 +3,7 @@
 namespace Test\Feature\Controllers\Orders;
 
 use App\Models\Order;
+use Src\Payments\Domain\Contracts\PaymentGatewayRepositoryContract;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -16,6 +17,12 @@ class GetOrderSummaryTest extends TestCase
         $order = Order::factory()->create();
 
         $path = sprintf($this->path, $order->id);
+
+        $this->mock(PaymentGatewayRepositoryContract::class)
+            ->shouldReceive('getStatusTransaction')
+            ->with($order->request_id)
+            ->once()
+            ->andReturn("PENDING");
 
         $this->getJson($path)
             ->assertOk()

@@ -24,15 +24,17 @@ class PlaceToPayRepository implements PaymentGatewayRepositoryContract
             ->setNonce($this->helper->getNonce())
             ->setSeed($this->helper->getSeed())
             ->setReturnUrl($returnUrl);
+        //dd($this->helper->getOriginalNonce(), $this->helper->getNonce());
+        //dd(json_encode($transactionDTO->toArray()));
 
         $result = Http::withHeaders(['Content-Type' => 'application/json'])
             ->post(
                 config('paymentGateways.placeToPay.services.sendTransaction'),
                 $transactionDTO->toArray()
             );
-
+       
         $response = json_decode($result->body(), true);
-
+        
         if ($response['status']['status'] != 'OK') {
             throw new TransactionFailed($response['status']['message']);
         }
@@ -40,19 +42,33 @@ class PlaceToPayRepository implements PaymentGatewayRepositoryContract
         $transactionResponseDTO = new TransactionResponseDTO();
         $transactionResponseDTO->setProcessUrl($response['processUrl'])
             ->setRequestId($response['requestId'])
-            ->setStatus(true);
+            ->setRequestStatus(true);
 
         return $transactionResponseDTO;
     }
 
-    public function getTransaction(string $requestId): TransactionResponseDTO
+    public function getStatusTransaction(string $requestId): string
     {
-        $response = [];
-        $transactionResponseDTO = new TransactionResponseDTO();
-        $transactionResponseDTO->setProcessUrl($response['processUrl'])
-            ->setRequestId($response['requestId'])
-            ->setStatus(true);
+        $body = [
+            'auth' => [
+                'login' => $this->helper->getLogin(),
+                'tranKey' => $this->helper->getTranKey(),
+                'nonce' => $this->helper->getNonce(),
+                'seed' => $this->helper->getSeed()
+            ]
+        ];
 
-        return $transactionResponseDTO;
+        $url = str_replace(
+            '{requestId}',
+            $requestId,
+            config('paymentGateways.placeToPay.services.getTransaction')
+        );
+
+        $result = Http::withHeaders(['Content-Type' => 'application/json'])
+            ->post($url, $body);
+
+        $response = json_decode($result->body(), true);
+
+        return $response['status']['status'];
     }
 }

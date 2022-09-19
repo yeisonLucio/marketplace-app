@@ -6,14 +6,14 @@ class TransactionResponseDTO
 {
     private string $requestId;
     private string $processUrl;
-    private bool $status;
+    private bool $requestStatus;
 
     public function toArray(): array
     {
         return [
             'request_id' => $this->requestId,
             'process_url' => $this->processUrl,
-            'status' => $this->status
+            'requestStatus' => $this->requestStatus
         ];
     }
 
@@ -54,19 +54,19 @@ class TransactionResponseDTO
     }
 
     /**
-     * Get the value of status
+     * Get the value of RequestStatus
      */
-    public function getStatus(): bool
+    public function getRequestStatus(): bool
     {
-        return $this->status;
+        return $this->requestStatus;
     }
 
     /**
-     * Set the value of status
+     * Set the value of RequestStatus
      */
-    public function setStatus(bool $status): self
+    public function setRequestStatus(bool $requestStatus): self
     {
-        $this->status = $status;
+        $this->requestStatus = $requestStatus;
 
         return $this;
     }
