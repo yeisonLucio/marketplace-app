@@ -24,8 +24,9 @@ return new class extends Migration
             $table->string('product_reference', 50);
             $table->string('product_description', 150);
             $table->string('total', 50);
+            $table->string('process_url', 100)->nullable();
+            $table->string('request_id', 50)->nullable();
             $table->enum('status', array_column(PaymentStatus::cases(), 'value'));
-            $table->enum('payment_method', array_column(PaymentMethod::cases(), 'value'));
             $table->timestamps();
         });
     }

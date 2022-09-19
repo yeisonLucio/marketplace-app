@@ -3,6 +3,7 @@
 namespace Test\Feature\Controllers\Orders;
 
 use App\Models\Order;
+use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class GetOrderSummaryTest extends TestCase
@@ -14,7 +15,7 @@ class GetOrderSummaryTest extends TestCase
     {
         $order = Order::factory()->create();
 
-        $path  = sprintf($this->path, $order->id);
+        $path = sprintf($this->path, $order->id);
 
         $this->getJson($path)
             ->assertOk()
@@ -27,31 +28,33 @@ class GetOrderSummaryTest extends TestCase
                     'product_reference',
                     'product_description',
                     'total',
-                    'payment_method',
-                    'status'
+                    'status',
+                    'process_url'
                 ]
             ])
-            ->assertJsonPath('data.id', $order->id)
             ->assertJsonFragment([
                 'data' => [
-                    'id' => $order->id,
+                    'id' => (string) $order->id,
                     'customer_name' => $order->customer_name,
                     'customer_email' => $order->customer_email,
                     'customer_mobile' => $order->customer_mobile,
                     'product_reference' => $order->product_reference,
                     'product_description' => $order->product_description,
                     'total' => $order->total,
-                    'payment_method' => $order->payment_method,
-                    'status' => $order->status
+                    'status' => $order->status,
+                    'process_url' => $order->process_url
                 ]
             ]);
     }
 
     /** @test */
-    public function shouldReturnExceptionWhenTheOrderDoesNoExists()
+    public function shouldReturnErrorNotFoundWhenTheOrderDoesNoExists()
     {
-        
+        $path = sprintf($this->path, 0);
+
+        $this->getJson($path)
+            ->assertStatus(Response::HTTP_NOT_FOUND)
+            ->assertJsonStructure(['error'])
+            ->assertJsonFragment(['error' => 'Order not found']);
     }
-    
-    
 }

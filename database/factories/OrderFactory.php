@@ -27,7 +27,8 @@ class OrderFactory extends Factory
             'product_reference' => 'RF-001',
             'product_description' => 'product description',
             'total' => '185000',
-            'payment_method' => PaymentMethod::PLACE_TO_PAY
+            'request_id' => '123',
+            'process_url' => 'https://pasarela.com/'
         ];
     }
 }

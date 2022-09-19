@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\GetOrderSummaryController;
-use App\Http\Controllers\orders\BuyProductController;
+use App\Http\Controllers\Orders\GetOrderSummaryController;
+use App\Http\Controllers\Orders\BuyProductController;
+use App\Http\Controllers\Orders\GetOrderListController;
+use App\Http\Controllers\Orders\PayOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +25,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1.0')->group(function(){
     Route::prefix('/orders')->group(function(){
         Route::post('/buy-product',[BuyProductController::class, 'handler']);
-        Route::get('/get-order-summary/{orderId}',[GetOrderSummaryController::class, 'handler']);
+        Route::get('/get-order-summary/{orderId}',[GetOrderSummaryController::class, 'handler'])
+            ->name('getOrderSummary');
+        Route::post('/pay-order',[PayOrderController::class, 'handler']);
+        Route::get('/get-all-orders',[GetOrderListController::class, 'handler']);
+
     });
 });
 

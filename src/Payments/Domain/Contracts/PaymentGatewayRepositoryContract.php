@@ -2,9 +2,16 @@
 
 namespace Src\Payments\Domain\Contracts;
 
-use Src\Payments\Domain\Transaction;
+use Src\Orders\Domain\Exceptions\TransactionFailed;
+use Src\Payments\Domain\Dto\TransactionDTO;
+use Src\Payments\Domain\Dto\TransactionResponseDTO;
 
 interface PaymentGatewayRepositoryContract {
-    public function sendTransaction(Transaction $transaction): Transaction;
-    public function getTransaction(int $transactionID): Transaction;
+
+    /**
+     * @throws TransactionFailed
+     */
+    public function sendTransaction(TransactionDTO $transactionDTO): TransactionResponseDTO;
+    
+    public function getTransaction(string $requestId): TransactionResponseDTO;
 }

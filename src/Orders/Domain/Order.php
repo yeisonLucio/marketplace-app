@@ -2,8 +2,6 @@
 
 namespace Src\Orders\Domain;
 
-use DateTime;
-use Src\Orders\Domain\Enums\PaymentMethod;
 use Src\Orders\Domain\Enums\PaymentStatus;
 
 class Order
@@ -17,9 +15,42 @@ class Order
         private string $product_reference,
         private string $product_description,
         private string $total,
-        private PaymentMethod $payment_method,
-        private PaymentStatus $status = PaymentStatus::CREATED
+        private PaymentStatus $status = PaymentStatus::CREATED,
+        private string $request_id = '',
+        private string $process_url = ''
     ) {
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            id: $data['id'],
+            customer_name: $data['customer_name'],
+            customer_email: $data['customer_email'],
+            customer_mobile: $data['customer_mobile'],
+            product_reference: $data['product_reference'],
+            product_description: $data['product_description'],
+            total: $data['total'],
+            status: PaymentStatus::tryFrom($data['status']),
+            request_id: $data['request_id'],
+            process_url: $data['process_url']
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'customer_name' => $this->customer_name,
+            'customer_email' => $this->customer_email,
+            'customer_mobile' => $this->customer_mobile,
+            'product_reference' => $this->product_reference,
+            'product_description' => $this->product_description,
+            'total' => $this->total,
+            'status' => $this->status->value,
+            'process_url' => $this->process_url,
+            'request_id' => $this->request_id
+        ];
     }
 
     public function getId(): int
@@ -118,45 +149,27 @@ class Order
         return $this;
     }
 
-    public function getPaymentMethod(): PaymentMethod
+    public function getRequestId()
     {
-        return $this->payment_method;
+        return $this->request_id;
     }
 
-    public function setPaymentMethod(PaymentMethod $payment_method): self
+    public function setRequestId(string $requestId): self
     {
-        $this->payment_method = $payment_method;
+        $this->request_id = $requestId;
 
         return $this;
     }
 
-    public static function fromArray(array $data): self
+    public function getProcessUrl(): string
     {
-        return new Order(
-            id: $data['id'],
-            customer_name: $data['customer_name'],
-            customer_email: $data['customer_email'],
-            customer_mobile: $data['customer_mobile'],
-            product_reference: $data['product_reference'],
-            product_description: $data['product_description'],
-            total: $data['total'],
-            payment_method: $data['payment_method'],
-            status: $data['status']
-        );
+        return $this->process_url;
     }
 
-    public function toArray(): array
+    public function setProcessUrl(string $processUrl): self
     {
-        return [
-            'id' => $this->id,
-            'customer_name' => $this->customer_name,
-            'customer_email' => $this->customer_email,
-            'customer_mobile' => $this->customer_mobile,
-            'product_reference' => $this->product_reference,
-            'product_description' => $this->product_description,
-            'total' => $this->total,
-            'payment_method' => $this->payment_method,
-            'status' => $this->status
-        ];
+        $this->process_url = $processUrl;
+
+        return $this;
     }
 }

@@ -8,12 +8,7 @@ use Src\Orders\Domain\Enums\PaymentMethod;
 
 class BuyProductRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules()
+    public function rules(): Array
     {
         return [
             'customer.name' => 'required|max:80',
@@ -22,7 +17,6 @@ class BuyProductRequest extends FormRequest
             'product.reference' => 'required|max:50',
             'product.description' => 'required|max:150',
             'product.amount' => 'required|max:50',
-            'paymentMethod' => ['required', new Enum(PaymentMethod::class)]
         ];
     }
 }

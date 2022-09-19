@@ -21,7 +21,9 @@ class Order extends Model
         'product_description',
         'total',
         'status',
-        'payment_method'
+        'payment_method',
+        'request_id',
+        'process_url'
     ];
 
 }

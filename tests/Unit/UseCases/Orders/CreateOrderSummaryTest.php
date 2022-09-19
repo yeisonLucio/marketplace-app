@@ -15,19 +15,9 @@ class CreateOrderSummaryTest extends TestCase
     /** @test */
     public function shouldCreateOrderSuccessfullyAccordingToRequest()
     {
-        $order = new Order(
-            0, 
-            'john doe', 
-            'johndoe@gmail.com', 
-            '1122132', 
-            '123', 
-            'fake', 
-            '12333',
-            PaymentMethod::PLACE_TO_PAY
-        );
+        $order = $this->createFakeOrder();
 
         $request = [
-            'paymentMethod' => $order->getPaymentMethod()->value,
             'product' => [
                 'reference' => $order->getProductReference(),
                 'description' => $order->getProductDescription(),

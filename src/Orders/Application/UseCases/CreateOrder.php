@@ -22,8 +22,7 @@ class CreateOrder implements CreateOrderContract {
             customer_mobile: $orderRequest['customer']['mobile'],
             product_reference: $orderRequest['product']['reference'],
             product_description: $orderRequest['product']['description'],
-            total: $orderRequest['product']['amount'],
-            payment_method: PaymentMethod::tryFrom($orderRequest['paymentMethod'])
+            total: $orderRequest['product']['amount']
         );
         
         return $this->orderRepository->save($order);
