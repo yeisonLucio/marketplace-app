@@ -27,13 +27,12 @@ class OrdersRepositoryTest extends TestCase
 
         $orderDomain = new DomainOrder(
             id: 0,
-            customer_name: $order->customer_name,
-            customer_email: $order->customer_email,
-            customer_mobile: $order->customer_mobile,
-            product_reference: $order->product_reference,
-            product_description: $order->product_description,
-            total: $order->total,
-            request_id: $order->request_id
+            customerName: $order->customer_name,
+            customerEmail: $order->customer_email,
+            customerMobile: $order->customer_mobile,
+            productReference: $order->product_reference,
+            productDescription: $order->product_description,
+            total: $order->total
         );
 
         $result = $this->repository->save($orderDomain);

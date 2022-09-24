@@ -12,5 +12,5 @@ interface OrderRepositoryContract
 
     public function update(Order $order): bool;
 
-    public function getAllOrders(): mixed;
+    public function getAllOrders(): array;
 }

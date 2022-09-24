@@ -9,15 +9,15 @@ class Order
 
     public function __construct(
         private int $id,
-        private string $customer_name,
-        private string $customer_email,
-        private string $customer_mobile,
-        private string $product_reference,
-        private string $product_description,
+        private string $customerName,
+        private string $customerEmail,
+        private string $customerMobile,
+        private string $productReference,
+        private string $productDescription,
         private string $total,
         private PaymentStatus $status = PaymentStatus::CREATED,
-        private string $request_id = '',
-        private string $process_url = ''
+        private string $requestId = '',
+        private string $processUrl = ''
     ) {
     }
 
@@ -25,15 +25,15 @@ class Order
     {
         return new self(
             id: $data['id'],
-            customer_name: $data['customer_name'],
-            customer_email: $data['customer_email'],
-            customer_mobile: $data['customer_mobile'],
-            product_reference: $data['product_reference'],
-            product_description: $data['product_description'],
+            customerName: $data['customer_name'],
+            customerEmail: $data['customer_email'],
+            customerMobile: $data['customer_mobile'],
+            productReference: $data['product_reference'],
+            productDescription: $data['product_description'],
             total: $data['total'],
             status: PaymentStatus::tryFrom($data['status']),
-            request_id: $data['request_id'],
-            process_url: $data['process_url']
+            requestId: $data['request_id'],
+            processUrl: $data['process_url']
         );
     }
 
@@ -41,15 +41,15 @@ class Order
     {
         return [
             'id' => $this->id,
-            'customer_name' => $this->customer_name,
-            'customer_email' => $this->customer_email,
-            'customer_mobile' => $this->customer_mobile,
-            'product_reference' => $this->product_reference,
-            'product_description' => $this->product_description,
+            'customerName' => $this->customerName,
+            'customerEmail' => $this->customerEmail,
+            'customerMobile' => $this->customerMobile,
+            'productReference' => $this->productReference,
+            'productDescription' => $this->productDescription,
             'total' => $this->total,
             'status' => $this->status->value,
-            'process_url' => $this->process_url,
-            'request_id' => $this->request_id
+            'processUrl' => $this->processUrl,
+            'requestId' => $this->requestId
         ];
     }
 
@@ -67,60 +67,60 @@ class Order
 
     public function getCustomerName(): string
     {
-        return $this->customer_name;
+        return $this->customerName;
     }
 
-    public function setCustomerName(string $customer_name)
+    public function setCustomerName(string $customerName)
     {
-        $this->customer_name = $customer_name;
+        $this->customerName = $customerName;
 
         return $this;
     }
 
     public function getCustomerEmail(): string
     {
-        return $this->customer_email;
+        return $this->customerEmail;
     }
 
-    public function setCustomerEmail(string $customer_email): self
+    public function setCustomerEmail(string $customerEmail): self
     {
-        $this->customer_email = $customer_email;
+        $this->customerEmail = $customerEmail;
 
         return $this;
     }
 
     public function getCustomerMobile(): string
     {
-        return $this->customer_mobile;
+        return $this->customerMobile;
     }
 
-    public function setCustomerMobile(string $customer_mobile): self
+    public function setCustomerMobile(string $customerMobile): self
     {
-        $this->customer_mobile = $customer_mobile;
+        $this->customerMobile = $customerMobile;
 
         return $this;
     }
 
     public function getProductReference(): string
     {
-        return $this->product_reference;
+        return $this->productReference;
     }
 
-    public function setProductReference(string $product_reference): self
+    public function setProductReference(string $productReference): self
     {
-        $this->product_reference = $product_reference;
+        $this->productReference = $productReference;
 
         return $this;
     }
 
     public function getProductDescription(): string
     {
-        return $this->product_description;
+        return $this->productDescription;
     }
 
-    public function setProductDescription(string $product_description): self
+    public function setProductDescription(string $productDescription): self
     {
-        $this->product_description = $product_description;
+        $this->productDescription = $productDescription;
 
         return $this;
     }
@@ -151,24 +151,24 @@ class Order
 
     public function getRequestId()
     {
-        return $this->request_id;
+        return $this->requestId;
     }
 
     public function setRequestId(string $requestId): self
     {
-        $this->request_id = $requestId;
+        $this->requestId = $requestId;
 
         return $this;
     }
 
     public function getProcessUrl(): string
     {
-        return $this->process_url;
+        return $this->processUrl;
     }
 
     public function setProcessUrl(string $processUrl): self
     {
-        $this->process_url = $processUrl;
+        $this->processUrl = $processUrl;
 
         return $this;
     }

@@ -17,11 +17,11 @@ class CreateOrder implements CreateOrderContract {
     {
         $order = new Order(
             id: 0,
-            customer_name: $orderRequest['customer']['name'], 
-            customer_email: $orderRequest['customer']['email'],
-            customer_mobile: $orderRequest['customer']['mobile'],
-            product_reference: $orderRequest['product']['reference'],
-            product_description: $orderRequest['product']['description'],
+            customerName: $orderRequest['customer']['name'], 
+            customerEmail: $orderRequest['customer']['email'],
+            customerMobile: $orderRequest['customer']['mobile'],
+            productReference: $orderRequest['product']['reference'],
+            productDescription: $orderRequest['product']['description'],
             total: $orderRequest['product']['amount']
         );
         

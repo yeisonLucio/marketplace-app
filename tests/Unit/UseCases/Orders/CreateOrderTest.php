@@ -4,14 +4,10 @@ namespace Tests\Unit\UseCases\Orders;
 
 use Src\Orders\Domain\Contracts\Repositories\OrderRepositoryContract;
 use Src\Orders\Domain\Contracts\UseCases\CreateOrderContract;
-use Src\Orders\Domain\Enums\PaymentMethod;
-use Src\Orders\Domain\Order;
 use Tests\TestCase;
 
-
-class CreateOrderSummaryTest extends TestCase 
+class CreateOrderTest extends TestCase 
 {
-
     /** @test */
     public function shouldCreateOrderSuccessfullyAccordingToRequest()
     {

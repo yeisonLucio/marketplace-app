@@ -29,27 +29,28 @@ class GetOrderSummaryTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     'id',
-                    'customer_name',
-                    'customer_email',
-                    'customer_mobile',
-                    'product_reference',
-                    'product_description',
+                    'customerName',
+                    'customerEmail',
+                    'customerMobile',
+                    'productReference',
+                    'productDescription',
                     'total',
                     'status',
-                    'process_url'
+                    'processUrl'
                 ]
             ])
             ->assertJsonFragment([
                 'data' => [
-                    'id' => (string) $order->id,
-                    'customer_name' => $order->customer_name,
-                    'customer_email' => $order->customer_email,
-                    'customer_mobile' => $order->customer_mobile,
-                    'product_reference' => $order->product_reference,
-                    'product_description' => $order->product_description,
+                    'id' => $order->id,
+                    'customerName' => $order->customer_name,
+                    'customerEmail' => $order->customer_email,
+                    'customerMobile' => $order->customer_mobile,
+                    'productReference' => $order->product_reference,
+                    'productDescription' => $order->product_description,
                     'total' => $order->total,
                     'status' => $order->status,
-                    'process_url' => $order->process_url
+                    'processUrl' => $order->process_url,
+                    'requestId' => $order->request_id
                 ]
             ]);
     }

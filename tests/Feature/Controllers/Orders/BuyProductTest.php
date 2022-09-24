@@ -30,19 +30,17 @@ class BuyProductTest extends TestCase
             ->assertJsonStructure([
                 'data' => [
                     'id',
-                    'customer_name',
-                    'customer_email',
-                    'customer_mobile',
-                    'product_reference',
-                    'product_description',
+                    'customerName',
+                    'customerEmail',
+                    'customerMobile',
+                    'productReference',
+                    'productDescription',
                     'total',
                     'status',
-                    'process_url'
+                    'processUrl'
                 ]
             ]);
         
     }
-
-    // validate request
     
 }

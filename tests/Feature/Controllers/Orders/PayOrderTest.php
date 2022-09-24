@@ -34,8 +34,8 @@ class PayOrderTest extends TestCase
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [
-                    'process_url'
+                    'processUrl'
                 ]
-            ])->assertJsonPath('data.process_url', $processUrl);
+            ])->assertJsonPath('data.processUrl', $processUrl);
     }
 }

@@ -24,7 +24,7 @@ class GetOrderSummaryController extends Controller
             $order = $this->getOrderSummary->handler($orderID);
 
             return response()->json([
-                'data' => OrderSummaryDTO::fromArray($order->toArray())->toArray()
+                'data' => $order->toArray()
             ]);
         } catch (OrderNotFound $e) {
             return response()->json(

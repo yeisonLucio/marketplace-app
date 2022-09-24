@@ -19,18 +19,19 @@ class GetOrderListTest extends TestCase
             ->assertJsonStructure([
                 'data' => [[
                     'id',
-                    'customer_name',
-                    'customer_email',
-                    'customer_mobile',
-                    'product_reference',
-                    'product_description',
+                    'customerName',
+                    'customerEmail',
+                    'customerMobile',
+                    'productReference',
+                    'productDescription',
                     'total',
+                    'processUrl',
+                    'requestId',
                     'status',
-                    'process_url'
                 ]]
             ])
             ->assertJsonCount($orders->count(), 'data')
-            ->assertJsonPath('data.1.id', $orders->last()->id)
-            ->assertJsonPath('data.0.id', $orders->first()->id);
+            ->assertJsonPath('data.0.id', $orders->last()->id)
+            ->assertJsonPath('data.1.id', $orders->first()->id);
     }
 }

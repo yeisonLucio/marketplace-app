@@ -4,7 +4,6 @@ namespace Tests\Unit\UseCases\Orders;
 
 use Src\Orders\Domain\Contracts\Repositories\OrderRepositoryContract;
 use Src\Orders\Domain\Contracts\UseCases\GetOrderSummaryContract;
-use Src\Orders\Domain\Enums\PaymentStatus;
 use Src\Orders\Domain\Exceptions\OrderNotFound;
 use Src\Payments\Domain\Contracts\PaymentGatewayRepositoryContract;
 use Tests\TestCase;

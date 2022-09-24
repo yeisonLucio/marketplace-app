@@ -29,7 +29,7 @@ class PayOrderController extends Controller
 
             return response()->json([
                 'data' => [
-                    'process_url' => $result
+                    'processUrl' => $result
                 ]
             ]);
         } catch (\Throwable $th) {
