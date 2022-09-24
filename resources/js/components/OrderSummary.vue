@@ -14,14 +14,14 @@
                         <v-col cols="3">
                             <div>Nombre:</div>
                         </v-col>
-                        <v-col cols="9"> Yeison Lucio </v-col>
+                        <v-col cols="9"> {{ order.customerName }}</v-col>
                     </v-row>
                     <v-row>
                         <v-col cols="3">
                             <div>Correo electrónico:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>yeisonlucio@gmail.com</div>
+                            <div>{{ order.customerEmail }}</div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -29,7 +29,7 @@
                             <div>Teléfono</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>3002543866</div>
+                            <div>{{ order.customerMobile }}</div>
                         </v-col>
                     </v-row>
                 </div>
@@ -45,7 +45,7 @@
                             <div>Identificador del pedido:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>1</div>
+                            <div>{{ order.id }}</div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -53,10 +53,7 @@
                             <div>Descripción del producto:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit
-                            </div>
+                            <div>{{ order.productDescription }}</div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -64,7 +61,7 @@
                             <div>Total:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>$40.000</div>
+                            <div>{{ order.total }}</div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -72,13 +69,18 @@
                             <div>Estado:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>Pendiente</div>
+                            <div>{{ order.status }}</div>
                         </v-col>
                     </v-row>
                 </div>
                 <v-row>
                     <v-col cols="12">
-                        <v-btn color="primary" block>
+                        <v-btn
+                            color="primary"
+                            block
+                            v-if="showButtonPay"
+                            @click="payOrder"
+                        >
                             <v-icon start icon="mdi-open-in-new" />
                             Ir a pagar
                         </v-btn>
@@ -91,7 +93,7 @@
 <script>
 export default {
     props: {
-        id: {
+        orderId: {
             type: String,
         },
     },
@@ -101,14 +103,41 @@ export default {
         };
     },
     mounted() {
-        this.order()
+        this.getOrder();
+    },
+    computed: {
+        showButtonPay() {
+            let payed = this.order.status == "payed";
+            let hasTransaction =
+                this.order.requestId != "" && this.order.status == "created";
+
+            if (payed || hasTransaction) {
+                return false;
+            }
+
+            return true;
+        },
     },
     methods: {
         async getOrder() {
-            let result = await this.$axios.get(
-                "/orders/get-order-summary/" + this.id
-            );
+            try {
+                let result = await this.$http.get(
+                    "/v1.0/orders/get-order-summary/" + this.orderId
+                );
+
+                this.order = result.data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        async payOrder() {
+            let result = await this.$http.post("/v1.0/orders/pay-order", {
+                orderId: this.order.id,
+            });
+
             console.log(result);
+            window.open(result.data.data.processUrl, "_blank").focus();
+            location.reload();
         },
     },
 };

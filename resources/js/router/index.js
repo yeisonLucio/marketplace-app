@@ -8,7 +8,11 @@ const routes = [
     { path: "/", component: Home, name: "home" },
     { path: "/orders", component: Orders },
     { path: "/checkout", component: Checkout, name: "checkout" },
-    { path: "/order-summary/:id", component: OrderSummary },
+    {
+        path: "/order-summary/:id",
+        component: OrderSummary,
+        name: "orderSummary",
+    },
 ];
 
 const router = createRouter({

@@ -21,7 +21,7 @@ class GetOrderSummaryController extends Controller
     public function handler(string $orderID): JsonResponse
     {
         try {
-            $order = $this->getOrderSummary->handler($orderID);
+            $order = $this->getOrderSummary->handler((int)$orderID);
 
             return response()->json([
                 'data' => $order->toArray()

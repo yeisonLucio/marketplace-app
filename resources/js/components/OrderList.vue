@@ -13,17 +13,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in desserts" :key="item.name">
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.calories }}</td>
+                    <tr v-for="item in orders" :key="item.name">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.customerName }}</td>
+                        <td>{{ item.customerEmail }}</td>
+                        <td>{{ item.total }}</td>
+                        <td>{{ item.status }}</td>
                         <td>
                             <v-btn
                                 variant="text"
                                 size="small"
-                                to="/order-summary/1"
+                                :to="{
+                                    name: 'orderSummary',
+                                    params: { id: item.id },
+                                }"
                                 color="primary"
-                                >ver pedido</v-btn
                             >
+                                ver pedido
+                            </v-btn>
                         </td>
                     </tr>
                 </tbody>
@@ -35,49 +42,21 @@
 export default {
     data() {
         return {
-            desserts: [
-                {
-                    name: "Frozen Yogurt",
-                    calories: 159,
-                },
-                {
-                    name: "Ice cream sandwich",
-                    calories: 237,
-                },
-                {
-                    name: "Eclair",
-                    calories: 262,
-                },
-                {
-                    name: "Cupcake",
-                    calories: 305,
-                },
-                {
-                    name: "Gingerbread",
-                    calories: 356,
-                },
-                {
-                    name: "Jelly bean",
-                    calories: 375,
-                },
-                {
-                    name: "Lollipop",
-                    calories: 392,
-                },
-                {
-                    name: "Honeycomb",
-                    calories: 408,
-                },
-                {
-                    name: "Donut",
-                    calories: 452,
-                },
-                {
-                    name: "KitKat",
-                    calories: 518,
-                },
-            ],
+            orders: [],
         };
+    },
+    mounted() {
+        this.getOrders();
+    },
+    methods: {
+        async getOrders() {
+            try {
+                let result = await this.$http.get("/v1.0/orders/get-all-orders");
+                this.orders = result.data.data;
+            } catch (error) {
+                console.log(error);
+            }
+        },
     },
 };
 </script>

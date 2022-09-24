@@ -32,8 +32,8 @@ class Order
             productDescription: $data['product_description'],
             total: $data['total'],
             status: PaymentStatus::tryFrom($data['status']),
-            requestId: $data['request_id'],
-            processUrl: $data['process_url']
+            requestId: $data['request_id'] ?? '',
+            processUrl: $data['process_url'] ?? ''
         );
     }
 
