@@ -17,20 +17,18 @@ class PlaceToPayRepository implements PaymentGatewayRepositoryContract
 
     public function sendTransaction(TransactionDTO $transactionDTO): TransactionResponseDTO
     {
-        $returnUrl = route('getOrderSummary', ['orderId' => $transactionDTO->getOrderId()]);
-        
         $transactionDTO->setLogin($this->helper->getLogin())
             ->setTranKey($this->helper->getTranKey())
             ->setNonce($this->helper->getNonce())
             ->setSeed($this->helper->getSeed())
-            ->setReturnUrl($returnUrl);
+            ->setExpiration(now()->addDay()->toIso8601String());
 
         $result = Http::withHeaders(['Content-Type' => 'application/json'])
             ->post(
                 config('paymentGateways.placeToPay.services.sendTransaction'),
                 $transactionDTO->toArray()
             );
-        dd($result->body());
+
         $response = json_decode($result->body(), true);
         
         if ($response['status']['status'] != 'OK') {
@@ -66,7 +64,7 @@ class PlaceToPayRepository implements PaymentGatewayRepositoryContract
             ->post($url, $body);
 
         $response = json_decode($result->body(), true);
-
+        
         return $response['status']['status'];
     }
 }

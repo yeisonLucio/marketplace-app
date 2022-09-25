@@ -6,7 +6,7 @@ use Src\Orders\Domain\Contracts\Repositories\OrderRepositoryContract;
 use Src\Orders\Domain\Contracts\UseCases\CreateOrderContract;
 use Tests\TestCase;
 
-class CreateOrderTest extends TestCase 
+class CreateOrderTest extends TestCase
 {
     /** @test */
     public function shouldCreateOrderSuccessfullyAccordingToRequest()
@@ -39,5 +39,4 @@ class CreateOrderTest extends TestCase
 
         $this->assertEquals($order->getId(), $result->getId());
     }
-    
 }

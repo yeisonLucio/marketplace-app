@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Str;
-
 class PlaceToPayHelper
 {
     private string $originalNonce;
@@ -21,7 +19,7 @@ class PlaceToPayHelper
     public function getOriginalNonce(): string
     {
         if (! isset($this->originalNonce)) {
-            $this->originalNonce = Str::random(20);
+            $this->originalNonce = bin2hex(random_bytes(16));
         }
 
         return $this->originalNonce;
@@ -35,6 +33,7 @@ class PlaceToPayHelper
     public function getTranKey(): string
     {
         $secretKey = config('paymentGateways.placeToPay.secretKey');
+
         $tranKey = base64_encode(
             sha1($this->getOriginalNonce() . $this->getSeed() . $secretKey, true)
         );

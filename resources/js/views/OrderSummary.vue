@@ -15,7 +15,7 @@ export default {
     },
     data() {
         return {
-            orderId: this.$route.params.id
+            orderId: this.$route.params.id,
         };
     },
 };

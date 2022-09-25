@@ -19,11 +19,11 @@ class PayOrderController extends Controller
     public function handler(PayOrderRequest $request): JsonResponse
     {
         try {
-
             $transactionDto = new TransactionDTO();
             $transactionDto->setOrderId($request->orderId)
                 ->setIpAddress($request->ip())
-                ->setUserAgent($request->server('HTTP_USER_AGENT'));
+                ->setUserAgent($request->server('HTTP_USER_AGENT'))
+                ->setReturnUrl($request->returnUrl);
 
             $result = $this->payOrderUseCase->handler($transactionDto);
 

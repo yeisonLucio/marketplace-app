@@ -8,10 +8,12 @@
             >
                 <v-row>
                     <v-col cols="12" v-if="!showSummary">
-                        <customer-form v-model:showSummary="showSummary"></customer-form>
+                        <customer-form
+                            v-model:showSummary="showSummary"
+                        ></customer-form>
                     </v-col>
                     <v-col cols="12" v-if="showSummary">
-                         <order-summary></order-summary>
+                        <order-summary></order-summary>
                     </v-col>
                 </v-row>
             </v-sheet>
@@ -37,7 +39,6 @@ export default {
     mounted() {
         this.product = this.$store.state.product;
     },
-    methods: {
-    },
+    methods: {},
 };
 </script>

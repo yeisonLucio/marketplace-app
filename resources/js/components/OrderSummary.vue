@@ -69,7 +69,9 @@
                             <div>Estado:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div :class="getColor(order.status)">{{ order.status }}</div>
+                            <div :class="getColor(order.status)">
+                                {{ order.status }}
+                            </div>
                         </v-col>
                     </v-row>
                 </div>
@@ -109,15 +111,15 @@ export default {
         showButtonPay() {
             let payed = this.order.status == "payed";
 
-            if (payed || this.hasTransaction) {
+            if (payed) {
                 return false;
             }
 
             return true;
         },
-        hasTransaction(){
+        hasTransaction() {
             return this.order.requestId != "" && this.order.status == "created";
-        }
+        },
     },
     methods: {
         async getOrder() {
@@ -129,46 +131,50 @@ export default {
                 this.order = result.data.data;
                 if (this.hasTransaction) {
                     setTimeout(() => {
-                        this.getOrder()
-                    }, 10000)
+                        this.getOrder();
+                    }, 10000);
                 }
             } catch (error) {
                 console.log(error);
             }
         },
         async payOrder() {
-            let result = await this.$http.post("/v1.0/orders/pay-order", {
-                orderId: this.order.id,
-            });
+            if (!this.hasTransaction) {
+                let result = await this.$http.post("/v1.0/orders/pay-order", {
+                    orderId: this.order.id,
+                    returnUrl: window.location.href,
+                });
+                window.open(result.data.data.processUrl, "_blank").focus();
+                location.reload();
+            }
 
-            console.log(result);
-            window.open(result.data.data.processUrl, "_blank").focus();
+            window.open(this.order.processUrl, "_blank").focus();
             location.reload();
         },
-        getColor(status){
-            if (status == 'created'){
-                return 'orange'
+        getColor(status) {
+            if (status == "created") {
+                return "orange";
             }
-            if (status == 'payed'){
-                return 'green'
+            if (status == "payed") {
+                return "green";
             }
 
-            return 'red'
-        }
+            return "red";
+        },
     },
 };
 </script>
 <style>
-    .orange{
-        color: orange;
-        font-weight: bold;
-    }
-    .green {
-        color: green;
-        font-weight: bold;
-    }
-    .red{
-        color: red;
-        font-weight: bold;
-    }
+.orange {
+    color: orange;
+    font-weight: bold;
+}
+.green {
+    color: green;
+    font-weight: bold;
+}
+.red {
+    color: red;
+    font-weight: bold;
+}
 </style>

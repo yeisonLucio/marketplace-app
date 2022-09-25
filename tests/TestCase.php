@@ -46,7 +46,8 @@ abstract class TestCase extends BaseTestCase
             'tranKey' => '',
             'nonce' => '',
             'seed' => '',
-            'orderId' => 'fake'
+            'orderId' => 'fake',
+            'expiration' => ''
         ]);
     }
 }

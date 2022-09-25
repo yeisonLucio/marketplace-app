@@ -55,16 +55,22 @@ export default {
             valid: true,
             nameRules: [
                 (v) => !!v || "El nombre es requerido",
-                (v) => (v && v.length <= 80) || "El nombre debe ser menor de 80 caracteres",
+                (v) =>
+                    (v && v.length <= 80) ||
+                    "El nombre debe ser menor de 80 caracteres",
             ],
             emailRules: [
-                (v) =>(v && v.length <= 80) || "El email debe ser menor de 120 caracteres",
+                (v) =>
+                    (v && v.length <= 80) ||
+                    "El email debe ser menor de 120 caracteres",
                 (v) => !!v || "El E-mail es requerido",
                 (v) => /.+@.+\..+/.test(v) || "El E-mail no es valido",
             ],
             phoneRules: [
-                (v) =>(v && v.length <= 40) || "El email debe ser menor de 40 caracteres",
-                (v) => !!v || "El teléfono es requerido"
+                (v) =>
+                    (v && v.length <= 40) ||
+                    "El email debe ser menor de 40 caracteres",
+                (v) => !!v || "El teléfono es requerido",
             ],
         };
     },
@@ -80,23 +86,20 @@ export default {
                     product: this.product,
                     customer: this.customer,
                 };
-    
+
                 let result = await this.$http.post("/v1.0/orders/buy-product", {
                     ...order,
                 });
 
                 this.$router.push({
-                    name: 'orderSummary',
+                    name: "orderSummary",
                     params: {
-                        id: result.data.data.id
-                    }
-                })
-
+                        id: result.data.data.id,
+                    },
+                });
             } catch (error) {
                 console.log(error);
             }
-            
-
         },
     },
 };

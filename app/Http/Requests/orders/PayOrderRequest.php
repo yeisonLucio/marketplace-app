@@ -9,7 +9,8 @@ class PayOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'orderId' => 'required'
+            'orderId' => 'required',
+            'returnUrl' => 'required'
         ];
     }
 

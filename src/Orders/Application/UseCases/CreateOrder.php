@@ -4,7 +4,6 @@ namespace Src\Orders\Application\UseCases;
 
 use Src\Orders\Domain\Contracts\Repositories\OrderRepositoryContract;
 use Src\Orders\Domain\Contracts\UseCases\CreateOrderContract;
-use Src\Orders\Domain\Enums\PaymentMethod;
 use Src\Orders\Domain\Order;
 
 class CreateOrder implements CreateOrderContract {

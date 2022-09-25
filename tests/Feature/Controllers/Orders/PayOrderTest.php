@@ -30,7 +30,7 @@ class PayOrderTest extends TestCase
 
         Http::fake([$urlFake => Http::response($response)]);
 
-        $this->postJson($this->path, ['orderId' => $orderDB->id])
+        $this->postJson($this->path, ['orderId' => $orderDB->id, 'returnUrl' => 'fake-url'])
             ->assertOk()
             ->assertJsonStructure([
                 'data' => [

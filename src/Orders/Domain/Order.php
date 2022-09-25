@@ -6,7 +6,6 @@ use Src\Orders\Domain\Enums\PaymentStatus;
 
 class Order
 {
-
     public function __construct(
         private int $id,
         private string $customerName,

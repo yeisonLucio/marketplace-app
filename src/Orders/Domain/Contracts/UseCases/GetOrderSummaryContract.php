@@ -7,7 +7,6 @@ use Src\Orders\Domain\Order;
 
 interface GetOrderSummaryContract
 {
-
     /**
      * @throws OrderNotFound
      */

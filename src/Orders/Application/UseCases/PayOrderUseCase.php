@@ -2,9 +2,9 @@
 
 namespace Src\Orders\Application\UseCases;
 
-
 use Src\Orders\Domain\Contracts\Repositories\OrderRepositoryContract;
 use Src\Orders\Domain\Contracts\UseCases\PayOrderUseCaseContract;
+use Src\Orders\Domain\Enums\PaymentStatus;
 use Src\Orders\Domain\Exceptions\OrderNotFound;
 use Src\Orders\Domain\Exceptions\TransactionFailed;
 use Src\Payments\Domain\Contracts\PaymentGatewayRepositoryContract;
@@ -41,7 +41,8 @@ class PayOrderUseCase implements PayOrderUseCaseContract
         }
 
         $order->setProcessUrl($result->getProcessUrl())
-            ->setRequestId($result->getRequestId());
+            ->setRequestId($result->getRequestId())
+            ->setStatus(PaymentStatus::CREATED);
 
         $this->orderRepository->Update($order);
 

@@ -6,7 +6,7 @@ return [
         'secretKey' => env('PLACETOPAY_SECRET_KEY', ''),
         'services' => [
             'sendTransaction' => env('PLACETOPAY_URL', '') . '/session',
-            'getTransaction' => env('PLACETOPAY_URL', '') . '/{requestId}'
+            'getTransaction' => env('PLACETOPAY_URL', '') . '/session/{requestId}'
         ]
     ]
 ];

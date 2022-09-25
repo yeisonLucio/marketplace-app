@@ -3,8 +3,6 @@
 namespace App\Http\Requests\orders;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Enum;
-use Src\Orders\Domain\Enums\PaymentMethod;
 
 class BuyProductRequest extends FormRequest
 {

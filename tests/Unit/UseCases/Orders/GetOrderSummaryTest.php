@@ -8,7 +8,7 @@ use Src\Orders\Domain\Exceptions\OrderNotFound;
 use Src\Payments\Domain\Contracts\PaymentGatewayRepositoryContract;
 use Tests\TestCase;
 
-class GetOrderSummaryTest extends TestCase 
+class GetOrderSummaryTest extends TestCase
 {
     /** @test */
     public function shouldReturnOrderSuccessfully()
@@ -30,12 +30,12 @@ class GetOrderSummaryTest extends TestCase
             ->with($order->getRequestId())
             ->once()
             ->andReturn("APPROVED");
-        
+
         /** @var GetOrderSummaryContract */
         $useCase = app(GetOrderSummaryContract::class);
 
         $result = $useCase->handler($order->getId());
-        
+
         $this->assertNotNull($result);
         $this->assertEquals($order, $result);
     }
@@ -57,6 +57,4 @@ class GetOrderSummaryTest extends TestCase
 
         $useCase->handler(0);
     }
-    
-    
 }

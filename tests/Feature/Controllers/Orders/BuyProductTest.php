@@ -8,7 +8,7 @@ class BuyProductTest extends TestCase
 {
 
     private string $path = 'api/v1.0/orders/buy-product';
-    
+
     /** @test */
     public function shouldBuyProductSuccessfully()
     {
@@ -40,7 +40,5 @@ class BuyProductTest extends TestCase
                     'processUrl'
                 ]
             ]);
-        
     }
-    
 }

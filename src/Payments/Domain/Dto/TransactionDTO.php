@@ -19,6 +19,7 @@ class TransactionDTO
     private string $nonce;
     private string $seed;
     private string $orderId;
+    private string $expiration;
 
     public static function fromArray(array $data): self
     {
@@ -45,6 +46,7 @@ class TransactionDTO
         $this->nonce = $data['nonce'];
         $this->seed = $data['seed'];
         $this->orderId = $data['orderId'];
+        $this->expiration = $data['expiration'];
     }
 
     public function toArray(): array
@@ -66,6 +68,7 @@ class TransactionDTO
             'returnUrl' => $this->returnUrl,
             'userAgent' => $this->userAgent,
             'paymentMethod' => $this->paymentMethod,
+            'expiration' => $this->expiration,
             'auth' => [
                 'login' => $this->login,
                 'tranKey' => $this->tranKey,
@@ -373,6 +376,26 @@ class TransactionDTO
     public function setOrderId(string $orderId): self
     {
         $this->orderId = $orderId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of expiration
+     */
+    public function getExpiration(): string
+    {
+        return $this->expiration;
+    }
+
+    /**
+     * Set the value of expiration
+     *
+     * @return  self
+     */
+    public function setExpiration(string $expiration): self
+    {
+        $this->expiration = $expiration;
 
         return $this;
     }
