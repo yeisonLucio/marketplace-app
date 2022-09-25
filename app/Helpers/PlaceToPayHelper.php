@@ -35,8 +35,9 @@ class PlaceToPayHelper
     public function getTranKey(): string
     {
         $secretKey = config('paymentGateways.placeToPay.secretKey');
-        $res = sha1($this->getOriginalNonce() . $this->getSeed() . $secretKey, true);
-        $tranKey = base64_encode($res);
+        $tranKey = base64_encode(
+            sha1($this->getOriginalNonce() . $this->getSeed() . $secretKey, true)
+        );
 
         return $tranKey;
     }

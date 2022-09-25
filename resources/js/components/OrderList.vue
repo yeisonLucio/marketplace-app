@@ -18,7 +18,9 @@
                         <td>{{ item.customerName }}</td>
                         <td>{{ item.customerEmail }}</td>
                         <td>{{ item.total }}</td>
-                        <td>{{ item.status }}</td>
+                        <td :class="getColor(item.status)">
+                            {{ item.status }}
+                        </td>
                         <td>
                             <v-btn
                                 variant="text"
@@ -51,12 +53,38 @@ export default {
     methods: {
         async getOrders() {
             try {
-                let result = await this.$http.get("/v1.0/orders/get-all-orders");
+                let result = await this.$http.get(
+                    "/v1.0/orders/get-all-orders"
+                );
                 this.orders = result.data.data;
             } catch (error) {
                 console.log(error);
             }
         },
+        getColor(status) {
+            if (status == "created") {
+                return "orange";
+            }
+            if (status == "payed") {
+                return "green";
+            }
+
+            return "red";
+        },
     },
 };
 </script>
+<style>
+.orange {
+    color: orange;
+    font-weight: bold;
+}
+.green {
+    color: green;
+    font-weight: bold;
+}
+.red {
+    color: red;
+    font-weight: bold;
+}
+</style>

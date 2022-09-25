@@ -61,7 +61,7 @@
                             <div>Total:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>{{ order.total }}</div>
+                            <div>$ {{ order.total }}</div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -69,7 +69,7 @@
                             <div>Estado:</div>
                         </v-col>
                         <v-col cols="9">
-                            <div>{{ order.status }}</div>
+                            <div :class="getColor(order.status)">{{ order.status }}</div>
                         </v-col>
                     </v-row>
                 </div>
@@ -108,15 +108,16 @@ export default {
     computed: {
         showButtonPay() {
             let payed = this.order.status == "payed";
-            let hasTransaction =
-                this.order.requestId != "" && this.order.status == "created";
 
-            if (payed || hasTransaction) {
+            if (payed || this.hasTransaction) {
                 return false;
             }
 
             return true;
         },
+        hasTransaction(){
+            return this.order.requestId != "" && this.order.status == "created";
+        }
     },
     methods: {
         async getOrder() {
@@ -126,6 +127,11 @@ export default {
                 );
 
                 this.order = result.data.data;
+                if (this.hasTransaction) {
+                    setTimeout(() => {
+                        this.getOrder()
+                    }, 10000)
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -139,6 +145,30 @@ export default {
             window.open(result.data.data.processUrl, "_blank").focus();
             location.reload();
         },
+        getColor(status){
+            if (status == 'created'){
+                return 'orange'
+            }
+            if (status == 'payed'){
+                return 'green'
+            }
+
+            return 'red'
+        }
     },
 };
 </script>
+<style>
+    .orange{
+        color: orange;
+        font-weight: bold;
+    }
+    .green {
+        color: green;
+        font-weight: bold;
+    }
+    .red{
+        color: red;
+        font-weight: bold;
+    }
+</style>

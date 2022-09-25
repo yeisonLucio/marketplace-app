@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+if [ ! -z "$WWWUSER" ]; then
+    usermod -u $WWWUSER sail
+fi
+
+if [ ! -d /.composer ]; then
+    mkdir /.composer
+fi
+
+chmod -R ugo+rw /.composer
+
+echo "############# installing composer dependencies ##############"
+composer install
+
+echo "############# running migrations ################"
+php artisan migrate
+
+echo "############# installing node dependencies ################"
+npm install
+
+echo "############ compiling javascript code ################ "
+npm run build
+
+if [ $# -gt 0 ]; then
+    exec gosu $WWWUSER "$@"
+else
+    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+fi
