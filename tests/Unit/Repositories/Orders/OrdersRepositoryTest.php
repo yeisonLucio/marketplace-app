@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class OrdersRepositoryTest extends TestCase
 {
-
     private OrderRepositoryContract $repository;
 
     protected function setUp(): void

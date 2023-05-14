@@ -21,7 +21,7 @@ class PayOrderUseCase implements PayOrderUseCaseContract
     public function handler(TransactionDTO $transactionDTO): string
     {
         $order = $this->orderRepository->getById((int) $transactionDTO->getOrderId());
-        
+
         if (!$order) {
             throw new OrderNotFound("Order not found");
         }

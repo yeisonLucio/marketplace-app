@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Schema;
 use Src\Orders\Domain\Enums\PaymentMethod;
 use Src\Orders\Domain\Enums\PaymentStatus;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *

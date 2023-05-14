@@ -8,7 +8,6 @@ use Src\Orders\Domain\Contracts\Repositories\OrderRepositoryContract;
 
 class GetOrderListController extends Controller
 {
-
     public function __construct(private OrderRepositoryContract $orderRepository)
     {
     }

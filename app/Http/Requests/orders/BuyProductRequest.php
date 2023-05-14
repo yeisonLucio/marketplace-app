@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class BuyProductRequest extends FormRequest
 {
-    public function rules(): Array
+    public function rules(): array
     {
         return [
             'customer.name' => 'required|max:80',

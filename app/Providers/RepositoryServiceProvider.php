@@ -19,8 +19,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(OrderRepositoryContract::class, EloquentOrderRepository::class);
-        
-        $this->app->bind(PaymentGatewayRepositoryContract::class, function(){
+
+        $this->app->bind(PaymentGatewayRepositoryContract::class, function () {
             return new PlaceToPayRepository(new PlaceToPayHelper());
         });
     }

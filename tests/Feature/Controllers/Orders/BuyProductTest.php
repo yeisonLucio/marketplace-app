@@ -6,7 +6,6 @@ use Tests\TestCase;
 
 class BuyProductTest extends TestCase
 {
-
     private string $path = 'api/v1.0/orders/buy-product';
 
     /** @test */
